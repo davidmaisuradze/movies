@@ -1,0 +1,35 @@
+<app-dialog-content width="570">
+  <app-dialog-header title="Create Movie">
+    <app-dialog-close></app-dialog-close>
+  </app-dialog-header>
+  <div class="dialog-body">
+    <div class="create-movie-content">
+      <form [formGroup]="form">
+        <input
+          *fieldSet="formFields.title"
+          formControlName="title"
+          class="form-control"
+        />
+        <input
+          *fieldSet="formFields.imageUrl"
+          formControlName="imageUrl"
+          class="form-control"
+        />
+        <textarea
+          *fieldSet="formFields.description"
+          formControlName="description"
+          class="form-control"
+          rows="6"
+        ></textarea>
+      </form>
+    </div>
+  </div>
+  <div class="group-button">
+    <button class="btn btn-primary" (click)="save()">
+      Save
+    </button>
+    <button class="btn btn-secondary" matDialogClose>
+      Cancel
+    </button>
+  </div>
+</app-dialog-content>

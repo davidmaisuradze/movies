@@ -1,0 +1,16 @@
+@import './variables';
+
+.group-button {
+  margin-top: 15px;
+  padding-right: $content-right-padding;
+  display: flex;
+  justify-content: flex-end;
+
+  & > * {
+    margin-left: 20px;
+  }
+
+  button.secondary {
+    background: transparent;
+  }
+}

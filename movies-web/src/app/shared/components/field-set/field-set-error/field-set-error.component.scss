@@ -1,0 +1,7 @@
+@import "../../../../../assets/styles/variables";
+
+.error {
+  font-size: 70%;
+  color: $requiredFieldColor;
+  position: absolute;
+}

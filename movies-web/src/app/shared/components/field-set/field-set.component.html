@@ -1,0 +1,12 @@
+<div class="fieldset" *ngIf="!hidden" [ngClass]="{'verical-layout': verticalLayout, 'isDisabled': control && control.disabled }">
+  <div class="label" *ngIf="!!label">
+    {{label}}
+    <span *ngIf="required" class="required">required</span>
+  </div>
+  <div class="wrapper" [ngClass]="{'invalid-field': control && control.invalid && (control.dirty || control.touched), 'with-control': !!control}">
+    <ng-container *ngTemplateOutlet="template"></ng-container>
+    <div class="error-messages" *ngIf="control && control.invalid && (control.dirty || control.touched)">
+      <app-field-set-error [errors]="control.errors"></app-field-set-error>
+    </div>
+  </div>
+</div>

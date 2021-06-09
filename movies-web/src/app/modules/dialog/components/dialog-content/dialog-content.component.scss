@@ -1,0 +1,26 @@
+@import '../../../../../assets/styles/variables';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  .dialog-content {
+    min-width: 300px;
+    min-height: 100px;
+    width: auto;
+    flex: 1 1 auto;
+    padding: 0;
+    margin: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+    }
+  }
+  ::ng-deep {
+    .mat-dialog-content {
+      max-height: inherit;
+    }
+  }
+}

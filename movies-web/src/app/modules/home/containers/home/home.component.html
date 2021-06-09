@@ -1,0 +1,11 @@
+<div class="d-flex justify-content-center align-items-center flex-column home-content">
+  <ng-container *ngIf="(user$ | async) as user; else pleaseLogin">
+    <h1>Welcome to Movies</h1>
+    <h1>Go to Movies page, from the header menu</h1>
+  </ng-container>
+
+  <ng-template #pleaseLogin>
+    <h1>Please login to access our Movies list</h1>
+    <h1>If you have not an account, please register</h1>
+  </ng-template>
+</div>

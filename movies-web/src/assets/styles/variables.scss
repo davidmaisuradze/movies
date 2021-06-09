@@ -1,0 +1,39 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+/*white*/
+$color-white: #ffffff;
+
+/*black*/
+$color-black: #000000;
+
+/*blue*/
+$color-blue-dark: #212529;
+
+/*red*/
+$color-red-light: #ffb9b7;
+$color-red-medium: #ED2939;
+
+/*green*/
+$color-green-light: #99cf7e;
+
+/*cream*/
+$color-cream-medium: #f7f4ed;
+
+/*grey*/
+$color-grey-medium: #858f95;
+$color-grey: #f5f5f5;
+
+$color-steel: #7c8186;
+$color-text-grey: #929292;
+$color-close-grey: #979797;
+
+/*widths*/
+$heightControl: 40px;
+
+/*defaults*/
+$requiredFieldColor: red;
+$requiredTextColor: $color-steel;
+$content-right-padding: 25px;
+

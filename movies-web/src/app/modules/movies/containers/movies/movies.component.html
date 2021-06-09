@@ -1,0 +1,50 @@
+<div class="movies-content" *ngIf="user$ | async as user">
+  <button class="btn btn-primary mb-2"
+          (click)="addMovie()"
+  >Create New Movie
+  </button>
+  <div class="col-12 mt-4 mb-2">
+    <input type="text" [(ngModel)]="searchTerm" value="searchTerm" (keyup)="updateFilterObject(filterObjectTypes.SEARCH_TERM, searchTerm)"/>
+  </div>
+  <div class="movies-container" *ngIf="(movies$ | async) as movies">
+    <div class="movies-title">Movies</div>
+    <div class="movies-items">
+      <div class="movie-list-item">
+        <div *ngFor="let item of movies; trackBy: moviesTrackByFn"
+             class="movie-list-item-card"
+        >
+          <div class="movie-list-item-header">
+            <span>{{item.title}}</span>
+            <div>
+              <fa-icon class="ml-2"
+                       [icon]="icons.star"
+                       [style]="{color: item.isFavourite ? 'orange':'black'}"
+                       (click)="toggleFavourite(item)"
+                       role="button"
+              ></fa-icon>
+              <fa-icon class="ml-2"
+                       [icon]="icons.edit"
+                       (click)="updateMovie(item)"
+                       role="button"
+              ></fa-icon>
+              <fa-icon class="ml-2"
+                       [icon]="icons.times"
+                       (click)="removeMovie(item._id, item.title)"
+                       role="button"
+              ></fa-icon>
+            </div>
+          </div>
+          <div class="movie-list-item-divider"></div>
+          <div class="movie-list-item-divider"></div>
+          <div class="movie-list-item-image-container">
+            <img [src]="item.imageUrl" class="movie-list-item-image">
+          </div>
+          <div class="movie-list-item-description tooltip">
+            {{item.description | truncateText : 60}}
+            <span class="tooltip-text">{{item.description}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

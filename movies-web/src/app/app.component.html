@@ -1,0 +1,7 @@
+<app-header [user]="user$ | async"
+            (logout)="logout()"
+></app-header>
+<app-content>
+  <router-outlet></router-outlet>
+</app-content>
+<app-footer></app-footer>

@@ -1,0 +1,18 @@
+<div class="login-content col-md-4 ml-auto mr-auto">
+  <form [formGroup]="loginForm">
+    <input
+      *fieldSet="formFields.email"
+      formControlName="email"
+      class="form-control"
+    />
+    <input
+      type="password"
+      *fieldSet="formFields.password"
+      formControlName="password"
+      class="form-control"
+    />
+  </form>
+  <div class="group-button">
+    <button class="btn btn-primary" (click)="login()">Login</button>
+  </div>
+</div>

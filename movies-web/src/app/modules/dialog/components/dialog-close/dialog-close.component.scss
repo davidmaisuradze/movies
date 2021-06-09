@@ -1,0 +1,26 @@
+@import '../../../../../assets/styles/variables';
+
+.dialog-close {
+    outline: none;
+    cursor: pointer;
+    margin: auto 0;
+    font-size: 40px;
+    font-weight: 100;
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    color: $color-close-grey;
+
+    &.float-right {
+      width: auto;
+      padding-left: 8px;
+      margin-right: -.05em;
+    }
+
+    ::ng-deep {
+        .mat-button-wrapper>* {
+            vertical-align: baseline;
+        }
+    }
+}
