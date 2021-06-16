@@ -4,8 +4,22 @@ import HttpStatus from 'http-status';
 
 export const getAllMovies = async (filters) => {
     try {
-        const {searchTerm, orderByNameAsc, orderByDateAsc} = filters;
-        const movies = await MovieModel.find({}).sort('-createdAt');
+        const {searchTerm, sortByNamesAsc, sortByDatesAsc} = filters;
+
+        let sort = {};
+        if (sortByNamesAsc !== undefined) {
+            sort = {
+                title: (sortByNamesAsc === 'true' ? 1 : -1)
+            }
+        } else if (sortByDatesAsc !== undefined) {
+            sort = {
+                createdAt: (sortByDatesAsc === 'true' ? 1 : -1)
+            }
+        }
+
+        const movies = await MovieModel
+            .find({title: {$regex: `.*${searchTerm}.*`}})
+            .sort(sort);
 
         return {status: HttpStatus.OK, data: movies};
     } catch (err) {

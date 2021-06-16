@@ -4,9 +4,9 @@ import {createForm, validForm} from '../../../../shared/helpers/form.helper';
 import {ViewFieldSet} from '../../../../shared/models/field-set';
 import {Store} from '@ngrx/store';
 import {MovieModelDto} from '../../models/movie-model-dto';
-import {CreateMovieRequest} from '../../actions/movie.actions';
+import {CreateMovieRequest} from '../../store/actions/movie.actions';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {State} from '../../reducers/movie.reducer';
+import {State} from '../../store/reducers/movie.reducer';
 
 @Component({
   selector: 'app-add-movie',

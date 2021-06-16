@@ -1,6 +1,4 @@
 import {createAction, props} from '@ngrx/store';
-import {Movie} from '../../../core/models/movie';
-import {Filter} from "../../../core/models/filter";
 
 // GET LIST
 export const GetMoviesRequest = createAction('[Movie] Get Movies Request', props<{ payload: any }>());
@@ -8,7 +6,7 @@ export const GetMoviesSuccess = createAction('[Movie] Get Movies Success', props
 export const GetMoviesFailure = createAction('[Movie] Get Movies Failure', props<{ payload: any }>());
 
 // SAVE FILTERS
-export const SaveFiltersRequest = createAction('[Movie] Save Filters Request', props<{ payload: {key: string, value: any} }>());
+export const SaveFiltersRequest = createAction('[Movie] Save Filters Request', props<{ payload: {key: string, value: any, isSort?: boolean} }>());
 
 // CREATE Movie
 export const CreateMovieRequest = createAction('[Movie] Create Movie Request', props<{ payload: any }>());

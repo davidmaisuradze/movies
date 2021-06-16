@@ -5,8 +5,8 @@ import {ViewFieldSet} from '../../../../shared/models/field-set';
 import {Store} from '@ngrx/store';
 import {MovieModelDto} from '../../models/movie-model-dto';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {UpdateMovieRequest} from '../../actions/movie.actions';
-import {State} from '../../reducers/movie.reducer';
+import {UpdateMovieRequest} from '../../store/actions/movie.actions';
+import {State} from '../../store/reducers/movie.reducer';
 
 @Component({
   selector: 'app-update-movie',

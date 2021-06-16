@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import * as MovieActions from '../../actions/movie.actions';
-import * as MovieSelectors from '../../selectors/movie.selectors';
+import * as MovieActions from '../../store/actions/movie.actions';
+import * as MovieSelectors from '../../store/selectors/movie.selectors';
 import {take, takeUntil} from 'rxjs/operators';
-import {faEdit, faTimes, faStar} from '@fortawesome/free-solid-svg-icons';
+import {faEdit, faTimes, faStar, faArrowUp, faArrowDown} from '@fortawesome/free-solid-svg-icons';
 import {ConfirmModalService} from '../../../../core/services/confirm-modal.service';
 import {AuthSelectors} from '../../../auth';
 import {Movie} from '../../../../core/models/movie';
@@ -12,13 +12,13 @@ import {AddMovieComponent} from '../../components/add-movie/add-movie.component'
 import {UpdateMovieComponent} from '../../components/update-movie/update-movie.component';
 import {User} from '../../../../core/models/user';
 import {DialogManagerService} from '../../../dialog/services/dialog-manager.service';
-import {State} from '../../reducers/movie.reducer';
+import {State} from '../../store/reducers/movie.reducer';
 import {Filter} from '../../../../core/models/filter';
 
 export enum FilterObjectTypes {
   SEARCH_TERM = 'searchTerm',
-  SORT_BY_NAMES_ASC = 'sortByNamesASC',
-  SORT_BY_DATES_ASC = 'sortByDatesASC'
+  SORT_BY_NAMES_ASC = 'sortByNamesAsc',
+  SORT_BY_DATES_ASC = 'sortByDatesAsc'
 }
 
 @Component({
@@ -34,7 +34,9 @@ export class MoviesComponent implements OnInit, OnDestroy {
   public icons = {
     edit: faEdit,
     times: faTimes,
-    star: faStar
+    star: faStar,
+    arrowUp: faArrowUp,
+    arrowDown: faArrowDown
   };
   public searchTerm = '';
   public filterObjectTypes = FilterObjectTypes;
@@ -93,10 +95,10 @@ export class MoviesComponent implements OnInit, OnDestroy {
       );
   }
 
-  updateFilterObject(key: string, value: string | boolean) {
+  updateFilterObject(key: string, value: string | boolean, isSort?: boolean) {
     this.store.dispatch(MovieActions.SaveFiltersRequest({
       payload: {
-        key, value
+        key, value, isSort
       }
     }));
   }
