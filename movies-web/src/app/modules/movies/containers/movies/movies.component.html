@@ -3,30 +3,30 @@
           (click)="addMovie()"
   >Create New Movie
   </button>
-  <div class="col-12 mt-4 mb-2" *ngIf="(filters$ | async) as filters">
-    <input type="text" [(ngModel)]="searchTerm" value="searchTerm"
-           (keyup)="updateFilterObject(filterObjectTypes.SEARCH_TERM, searchTerm)"/>
-    <span class="mr-2 ml-2 cursor-pointer"
-          (click)="updateFilterObject(filterObjectTypes.SORT_BY_NAMES_ASC, !filters.sort.sortByNamesAsc, true)"
-    >
+  <div class="movies-container" *ngIf="(movies$ | async) as movies">
+    <div class="movies-title">Movies</div>
+    <div class="col-12 mt-4 mb-4" *ngIf="(filters$ | async) as filters">
+      <input type="text" [(ngModel)]="searchTerm" value="searchTerm"
+             (keyup)="updateFilterObject(filterObjectTypes.SEARCH_TERM, searchTerm)"/>
+      <span class="mr-2 ml-2 cursor-pointer"
+            (click)="updateFilterObject(filterObjectTypes.SORT_BY_NAMES_ASC, !filters.sort.sortByNamesAsc, true)"
+      >
       <fa-icon class="ml-2"
                [icon]="filters.sort.sortByNamesAsc ? icons.arrowUp : icons.arrowDown"
                role="button"
       ></fa-icon>
         Sort By Titles
       </span>
-    <span class="cursor-pointer"
-          (click)="updateFilterObject(filterObjectTypes.SORT_BY_DATES_ASC, !filters.sort.sortByDatesAsc, true)"
-    >
+      <span class="cursor-pointer"
+            (click)="updateFilterObject(filterObjectTypes.SORT_BY_DATES_ASC, !filters.sort.sortByDatesAsc, true)"
+      >
       <fa-icon class="ml-2"
                [icon]="filters.sort.sortByDatesAsc ? icons.arrowUp : icons.arrowDown"
                role="button"
       ></fa-icon>
       Sort By Dates
     </span>
-  </div>
-  <div class="movies-container" *ngIf="(movies$ | async) as movies">
-    <div class="movies-title">Movies</div>
+    </div>
     <div class="movies-items">
       <div class="movie-list-item">
         <div *ngFor="let item of movies; trackBy: moviesTrackByFn"
