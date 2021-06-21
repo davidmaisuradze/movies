@@ -4,9 +4,7 @@ dotenv.config();
 
 // AWS config
 export const config = {
-    aws_table_users: 'Users',
-    aws_table_images: 'Images',
-    aws_bucket_images: 'tcdn-image-storage',
+    aws_bucket_images: 'movies-image-storage',
     aws_remote_config: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
