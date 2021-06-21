@@ -6,16 +6,16 @@ export const getAllMovies = async (req, res, next) => {
 };
 
 export const createMovie = async (req, res, next) => {
-    const {currentUser, body} = req;
+    const {currentUser, body, file} = req;
 
-    const {status, data} = await movieService.createMovie(currentUser.email, body);
+    const {status, data} = await movieService.createMovie(currentUser.email, file, body);
     return res.status(status).json(data);
 };
 
 export const updateMovie = async (req, res, next) => {
-    const {currentUser, body} = req;
+    const {currentUser, body, file} = req;
 
-    const {status, data} = await movieService.updateMovie(body);
+    const {status, data} = await movieService.updateMovie(currentUser.email, file, body);
     return res.status(status).json(data);
 };
 

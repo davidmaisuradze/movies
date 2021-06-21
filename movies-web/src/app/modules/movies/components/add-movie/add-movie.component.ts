@@ -27,14 +27,10 @@ export class AddMovieComponent implements OnInit {
       validators: {required: true},
       view: ViewFieldSet.vertical
     },
-    imageUrl: {
-      value: null,
-      label: 'Image Url',
-      validators: {required: true},
-      view: ViewFieldSet.vertical
-    }
+    imageData: {value: null, required: false},
   };
   public form: FormGroup;
+  public uploadedImage: any;
 
   constructor(
     private fb: FormBuilder,
@@ -53,9 +49,16 @@ export class AddMovieComponent implements OnInit {
         CreateMovieRequest({
           payload: {
             ...this.form.value,
-          } as MovieModelDto
+            imageData: this.uploadedImage
+          } as any
         })
       );
+    }
+  }
+
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      this.uploadedImage = event.target.files[0];
     }
   }
 }

@@ -10,17 +10,19 @@
           formControlName="title"
           class="form-control"
         />
-        <input
-          *fieldSet="formFields.imageUrl"
-          formControlName="imageUrl"
-          class="form-control"
-        />
         <textarea
           *fieldSet="formFields.description"
           formControlName="description"
           class="form-control"
           rows="6"
         ></textarea>
+        <input
+          *fieldSet="formFields.imageData"
+          formControlName="imageData"
+          id="imageData"
+          type="file"
+          class="form-control"
+          (change)="onFileChange($event)">
       </form>
     </div>
   </div>

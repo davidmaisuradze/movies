@@ -3,7 +3,8 @@ import UserModel from '../models/user.model';
 import HttpStatus from 'http-status';
 import AWS from 'aws-sdk';
 import {config} from "../config/config";
-import uuidv1 from 'uuid';
+import { v1 as uuidv1 } from 'uuid';
+const fs = require('fs')
 
 export const getAllMovies = async (filters) => {
     try {
@@ -30,10 +31,9 @@ export const getAllMovies = async (filters) => {
     }
 };
 
-export const createMovie = async (currentUserEmail, data) => {
+export const createMovie = async (currentUserEmail, file, data) => {
     try {
-        const {title, description, userEmail, imageBase64} = data;
-
+        const {title, description, userEmail} = data;
         const email = userEmail || currentUserEmail;
 
         const user = await UserModel.findOne({email: email});
@@ -41,9 +41,7 @@ export const createMovie = async (currentUserEmail, data) => {
             return {status: HttpStatus.BAD_REQUEST, data: 'user not found'};
         }
 
-        const imageBuffer = new Buffer(imageBase64.replace(/^data:image\/\w+;base64,/, ''), 'base64');
-
-        const bucketResult = await addImageInBucket(imageBuffer, title);
+        const bucketResult = await addImageInBucket(file, title);
         if (bucketResult.status === HttpStatus.BAD_REQUEST) {
             return bucketResult;
         }
@@ -65,30 +63,16 @@ export const createMovie = async (currentUserEmail, data) => {
     }
 };
 
-const addImageInBucket = async (imageData, title) => {
+export const updateMovie = async (currentUserEmail, file, data) => {
     try {
-        AWS.config.update(config.aws_remote_config);
-        const s3 = new AWS.S3();
+        const {_id, title, description, userEmail} = data;
+        const email = userEmail || currentUserEmail;
 
-        const params = {
-            Bucket: config.aws_bucket_images,
-            Body: imageData,
-            Key: `${uuidv1()}-${title}.png`,
-            ContentEncoding: 'base64',
-            ContentType: 'image/png',
-            ACL: 'public-read'
-        };
-
-        const data = await s3.upload(params).promise();
-        return {status: HttpStatus.OK, data: data};
-    } catch (err) {
-        return {status: HttpStatus.BAD_REQUEST, data: err};
-    }
-};
-
-export const updateMovie = async (data) => {
-    try {
-        const {_id, title, description} = data;
+        const bucketResult = await addImageInBucket(file, title);
+        if (bucketResult.status === HttpStatus.BAD_REQUEST) {
+            return bucketResult;
+        }
+        const bucketData = bucketResult.data;
 
         const result = await MovieModel.findOneAndUpdate(
             {_id: _id},
@@ -96,13 +80,33 @@ export const updateMovie = async (data) => {
                 $set: {
                     title,
                     description,
-                    userEmail: email
+                    userEmail: email,
+                    imageUrl: bucketData.Location
                 }
             },
             {upsert: true, new: true}
         );
 
         return {status: HttpStatus.OK, data: result};
+    } catch (err) {
+        return {status: HttpStatus.BAD_REQUEST, data: err};
+    }
+};
+
+const addImageInBucket = async (imageData, title) => {
+    try {
+        AWS.config.update(config.aws_remote_config);
+        const s3 = new AWS.S3({apiVersion: '2006-03-01'});
+
+        const uploadParams = {
+            Bucket: config.aws_bucket_images,
+            Key: `${uuidv1()}-${title}.png`,
+            Body: imageData.buffer,
+            ACL: 'public-read'
+        };
+
+        const data = await s3.upload(uploadParams).promise();
+        return {status: HttpStatus.OK, data: data};
     } catch (err) {
         return {status: HttpStatus.BAD_REQUEST, data: err};
     }

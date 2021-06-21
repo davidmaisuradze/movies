@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {MovieModelDto} from '../../modules/movies/models/movie-model-dto';
 import {Filter} from '../models/filter';
 
@@ -29,12 +29,23 @@ export class MovieService {
     return this.http.get(`/api/movies${query}`);
   }
 
-  createMovie(movie: MovieModelDto) {
-    return this.http.post('/api/movies', movie);
+  createMovie(movie: any) {
+    const formData = new FormData();
+    formData.append('imageData', movie.imageData, 'image');
+    formData.append('title', movie.title);
+    formData.append('description', movie.description);
+
+    return this.http.post('/api/movies', formData);
   }
 
-  updateMovie(movie: MovieModelDto) {
-    return this.http.put('/api/movies', movie);
+  updateMovie(movie: any) {
+    const formData = new FormData();
+    formData.append('imageData', movie.imageData, 'image');
+    formData.append('_id', movie._id);
+    formData.append('title', movie.title);
+    formData.append('description', movie.description);
+
+    return this.http.put('/api/movies', formData);
   }
 
   toggleFavouriteMovie(movieId: string, isFavourite: boolean) {
