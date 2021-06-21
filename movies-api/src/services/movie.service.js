@@ -1,6 +1,9 @@
 import MovieModel from '../models/movie.model';
 import UserModel from '../models/user.model';
 import HttpStatus from 'http-status';
+import AWS from 'aws-sdk';
+import {config} from "../config/config";
+import uuidv1 from 'uuid';
 
 export const getAllMovies = async (filters) => {
     try {
@@ -29,7 +32,7 @@ export const getAllMovies = async (filters) => {
 
 export const createMovie = async (currentUserEmail, data) => {
     try {
-        const {title, description, userEmail} = data;
+        const {title, description, userEmail, imageBase64} = data;
 
         const email = userEmail || currentUserEmail;
 
@@ -38,10 +41,18 @@ export const createMovie = async (currentUserEmail, data) => {
             return {status: HttpStatus.BAD_REQUEST, data: 'user not found'};
         }
 
+        const imageBuffer = new Buffer(imageBase64.replace(/^data:image\/\w+;base64,/, ''), 'base64');
+
+        const bucketResult = await addImageInBucket(imageBuffer, title);
+        if (bucketResult.status === HttpStatus.BAD_REQUEST) {
+            return bucketResult;
+        }
+        const bucketData = bucketResult.data;
+
         const newMovie = new MovieModel({
             title,
             description,
-            imageUrl: 'TODO',
+            imageUrl: bucketData.Location,
             isFavourite: false,
             userEmail: email
         });
@@ -50,6 +61,27 @@ export const createMovie = async (currentUserEmail, data) => {
         return {status: HttpStatus.OK, data: result};
     } catch (err) {
         console.log(err, 'err');
+        return {status: HttpStatus.BAD_REQUEST, data: err};
+    }
+};
+
+const addImageInBucket = async (imageData, title) => {
+    try {
+        AWS.config.update(config.aws_remote_config);
+        const s3 = new AWS.S3();
+
+        const params = {
+            Bucket: config.aws_bucket_images,
+            Body: imageData,
+            Key: `${uuidv1()}-${title}.png`,
+            ContentEncoding: 'base64',
+            ContentType: 'image/png',
+            ACL: 'public-read'
+        };
+
+        const data = await s3.upload(params).promise();
+        return {status: HttpStatus.OK, data: data};
+    } catch (err) {
         return {status: HttpStatus.BAD_REQUEST, data: err};
     }
 };
