@@ -13,6 +13,10 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+
+    @include media-breakpoint-down(sm) {
+      min-width: unset!important;
+    }
   }
   ::ng-deep {
     .mat-dialog-content {

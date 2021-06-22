@@ -84,6 +84,13 @@
     }
   }
 
+  .sorting {
+    @include media-breakpoint-down(sm) {
+      display: block;
+      margin: 5px 0!important;
+    }
+  }
+
   .cursor-pointer {
     cursor: pointer;
   }

@@ -8,7 +8,7 @@
     <div class="col-12 mt-4 mb-4" *ngIf="(filters$ | async) as filters">
       <input type="text" [(ngModel)]="searchTerm" value="searchTerm"
              (keyup)="updateFilterObject(filterObjectTypes.SEARCH_TERM, searchTerm)"/>
-      <span class="mr-2 ml-2 cursor-pointer"
+      <span class="mr-2 ml-2 cursor-pointer sorting"
             (click)="updateFilterObject(filterObjectTypes.SORT_BY_NAMES_ASC, !filters.sort.sortByNamesAsc, true)"
       >
       <fa-icon class="ml-2"
@@ -17,7 +17,7 @@
       ></fa-icon>
         Sort By Titles
       </span>
-      <span class="cursor-pointer"
+      <span class="cursor-pointer sorting"
             (click)="updateFilterObject(filterObjectTypes.SORT_BY_DATES_ASC, !filters.sort.sortByDatesAsc, true)"
       >
       <fa-icon class="ml-2"
